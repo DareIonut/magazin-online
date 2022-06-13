@@ -13,9 +13,6 @@
     "data:destroy": "node backend/seeder -d",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
-  "engines": {
-    "node": ">=16.13.1"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
