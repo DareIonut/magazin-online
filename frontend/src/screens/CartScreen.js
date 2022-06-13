@@ -42,10 +42,10 @@ const CartScreen = () => {
   return (
     <Row>
       <Col md={8}>
-        <h1>Shopping Cart</h1>
+        <h1>Coșul de cumpărături</h1>
         {cartItems.length === 0 ? (
           <Message>
-            Your Cart Is EMPTY <Link to="/">Go back</Link>
+            Coșul este gol <Link to="/">Înapoi</Link>
           </Message>
         ) : (
           <ListGroup variant="flush">
@@ -97,9 +97,9 @@ const CartScreen = () => {
             <ListGroup.Item>
               <h2>
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                items
+                produse
               </h2>
-              $
+              lei
               {cartItems
                 .reduce((acc, item) => acc + item.qty * item.price, 0)
                 .toFixed(2)}
@@ -111,7 +111,7 @@ const CartScreen = () => {
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
-                Proceed To Checkout
+                Plătește
               </Button>
             </ListGroup.Item>
           </ListGroup>

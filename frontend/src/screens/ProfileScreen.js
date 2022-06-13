@@ -60,46 +60,46 @@ const ProfileScreen = () => {
   return (
     <Row>
       <Col md={3}>
-        <h1>User Profile</h1>
+        <h1>Profil</h1>
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        {updated && <Message variant="success">Profile Updated</Message>}
+        {updated && <Message variant="success">Profil actualizat</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Nume</Form.Label>
             <Form.Control
               type="name"
-              placeholder="Enter name"
+              placeholder="Introdu nume"
               value={name}
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="email">
-            <Form.Label>Email Address</Form.Label>
+            <Form.Label>Adresa de email</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
+              placeholder="Introdu adresa de email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
           <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Parola</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter password"
+              placeholder="Introdu parola"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="true"
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
+            <Form.Label>Confirmă Parola</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Confirm password"
+              placeholder="Confirmă parola"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="true"
@@ -107,12 +107,12 @@ const ProfileScreen = () => {
           </Form.Group>
 
           <Button type="submit" variant="primary">
-            Update
+            Actualizează
           </Button>
         </Form>
       </Col>
       <Col md={9}>
-        <h2>My orders</h2>
+        <h2>Comenzile mele</h2>
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
@@ -152,7 +152,7 @@ const ProfileScreen = () => {
                   <td>
                     <LinkContainer to={`/order/${order._id}`}>
                       <Button className="btn-sm" variant="light">
-                        Details
+                        Detalii
                       </Button>
                     </LinkContainer>
                   </td>

@@ -16,6 +16,7 @@ import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
+import OrderListScreen from "./screens/OrderListScreen";
 
 const App = () => {
   return (
@@ -25,12 +26,14 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/search/:keyword" element={<Home />} />
+            <Route path="/page/:pageNumber" element={<Home />} />
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/shipping" element={<ShippingScreen />} />
             <Route path="/payment" element={<PaymentScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/orders/:id" element={<OrderScreen />} />
+            <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/cart">
@@ -44,9 +47,11 @@ const App = () => {
               path="/admin/product/:id/edit"
               element={<ProductEditScreen />}
             />
+            <Route path="/admin/orderlist" element={<OrderListScreen />} />
           </Routes>
         </Container>
       </main>
+
       <Footer />
     </BrowserRouter>
   );

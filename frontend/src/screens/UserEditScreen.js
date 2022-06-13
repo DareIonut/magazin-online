@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -12,7 +12,6 @@ const UserEditScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const params = useParams();
   const userId = params.id;
@@ -52,10 +51,10 @@ const UserEditScreen = () => {
   return (
     <>
       <Link to="/admin/userlist" className="btn btn-light my-3">
-        Go Back
+        Înapoi
       </Link>
       <FormContainer>
-        <h1>Edit User</h1>
+        <h1>Editare clienți</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
@@ -65,20 +64,20 @@ const UserEditScreen = () => {
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Nume</Form.Label>
               <Form.Control
                 type="name"
-                placeholder="Enter name"
+                placeholder="Introdu nume"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
             <Form.Group controlId="email">
-              <Form.Label>Email Address</Form.Label>
+              <Form.Label>Adresă de email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter email"
+                placeholder="Introdu adresă de email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               ></Form.Control>
@@ -87,7 +86,7 @@ const UserEditScreen = () => {
             <Form.Group controlId="isadmin">
               <Form.Check
                 type="checkbox"
-                label="Is Admin"
+                label="Admin"
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
               ></Form.Check>

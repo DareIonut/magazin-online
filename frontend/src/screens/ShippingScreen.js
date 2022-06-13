@@ -27,50 +27,50 @@ const ShippingScreen = () => {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 />
-      <h1>Shipping</h1>
+      <h1>Livrare</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address">
-          <Form.Label>Address</Form.Label>
+          <Form.Label>Adresă</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter address"
+            placeholder="Introdu adresa"
             value={address}
             required
             onChange={(e) => setAddress(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
+          <Form.Label>Oraș</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter city"
+            placeholder="Introdu oraș"
             value={city}
             required
             onChange={(e) => setCity(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="postal">
-          <Form.Label>Postal Code</Form.Label>
+          <Form.Label>Codul poștal</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter postal code"
+            placeholder="Introdu codul poștal"
             value={postalCode}
             required
             onChange={(e) => setPostalCode(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="country">
-          <Form.Label>Country</Form.Label>
+          <Form.Label>Țara</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter country"
+            placeholder="Introdu țara"
             value={country}
             required
             onChange={(e) => setCountry(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Button type="submit" variant="primary">
-          Continue
+          Continuare
         </Button>
       </Form>
     </FormContainer>

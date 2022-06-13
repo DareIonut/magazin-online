@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails, payOrder } from "../actions/orderActions";
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from "../actions/orderActions";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
+} from "../constants/orderConstants";
 
 const OrderScreen = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const orderId = params.id;
+  const history = useNavigate();
 
   const [sdkReady, setSdkReady] = useState(false);
 
@@ -21,6 +29,12 @@ const OrderScreen = () => {
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   if (!loading) {
     const addDecimals = (num) => {
@@ -34,6 +48,10 @@ const OrderScreen = () => {
   }
 
   useEffect(() => {
+    if (!userInfo) {
+      history("/login");
+    }
+
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
@@ -46,8 +64,9 @@ const OrderScreen = () => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay || order._id !== orderId) {
+    if (!order || successPay || successDeliver || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -56,11 +75,15 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, history, userInfo, order, orderId, successPay, successDeliver]);
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -69,14 +92,14 @@ const OrderScreen = () => {
     <Message variant="danger">{error}</Message>
   ) : (
     <>
-      <h1>Order {order._id}</h1>
+      <h1>Comanda {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2>Livrare</h2>
               <p>
-                <strong>Name: </strong>
+                <strong>Nume: </strong>
                 {order.user.name}
               </p>
               <p>
@@ -85,7 +108,7 @@ const OrderScreen = () => {
               </p>
 
               <p>
-                <strong>Address: </strong>
+                <strong>Adresa: </strong>
                 {order.shippingAddress.address},{order.shippingAddress.city},
                 {""}
                 {order.shippingAddress.postalCode},{""}
@@ -96,25 +119,25 @@ const OrderScreen = () => {
                   Delivered on {order.delivereAt}
                 </Message>
               ) : (
-                <Message variant="danger">Not Delivered</Message>
+                <Message variant="danger">Nu este livrată</Message>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
-              <h2>Payment Method</h2>
+              <h2>Modalitate de plată</h2>
               <p>
-                <strong>Method: </strong>
+                <strong>Modalitate: </strong>
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">Plătit {order.paidAt}</Message>
               ) : (
-                <Message variant="danger">Not paid</Message>
+                <Message variant="danger">Fără plată</Message>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h2>Produse comandate</h2>
               {order.orderItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
+                <Message>Coșul tău este gol</Message>
               ) : (
                 <ListGroup variant="flush">
                   {order.orderItems.map((item, index) => (
@@ -148,30 +171,30 @@ const OrderScreen = () => {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>Detalii comandă</h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Items</Col>
-                  <Col>{order.itemsPrice}$</Col>
+                  <Col>Produse</Col>
+                  <Col>{order.itemsPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
-                  <Col>{order.shippingPrice}$</Col>
+                  <Col>Cost livrare</Col>
+                  <Col>{order.shippingPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Tax</Col>
-                  <Col>{order.taxPrice}$</Col>
+                  <Col>Taxă</Col>
+                  <Col>{order.taxPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>{order.totalPrice}$</Col>
+                  <Col>{order.totalPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               {!order.isPaid && (
@@ -187,6 +210,21 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Marchează ca livrat
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

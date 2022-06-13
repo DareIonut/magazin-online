@@ -15,7 +15,6 @@ import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 const ProductListScreen = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
-  const params = useParams();
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
@@ -73,11 +72,11 @@ const ProductListScreen = () => {
     <>
       <Row className="align-items-center">
         <Col>
-          <h1>Products</h1>
+          <h1>Produse</h1>
         </Col>
         <Col className="text-end">
           <Button className="my-3" onClick={createProductHandler}>
-            <i className="fas fa-plus"></i> Create Product
+            <i className="fas fa-plus"></i> Adaugă produs
           </Button>
         </Col>
       </Row>

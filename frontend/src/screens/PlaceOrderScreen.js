@@ -32,7 +32,7 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (success) {
-      history(`/orders/${order._id}`);
+      history(`/order/${order._id}`);
     }
     // eslint-disable-next-line
   }, [history, success]);
@@ -58,23 +58,23 @@ const PlaceOrderScreen = () => {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2>Livrare</h2>
               <p>
-                <strong>Address: </strong>
+                <strong>Adresa: </strong>
                 {cart.shippingAddress.address},{cart.shippingAddress.city},{""}
                 {cart.shippingAddress.postalCode},{""}
                 {cart.shippingAddress.country}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
-              <h2>Payment Method</h2>
-              <strong>Method: </strong>
+              <h2>Modalitate de plată</h2>
+              <strong>Metoda: </strong>
               {cart.paymentMethod}
             </ListGroup.Item>
             <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h2>Produse comandate</h2>
               {cart.cartItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
+                <Message>Coșul tău este gol</Message>
               ) : (
                 <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (
@@ -108,30 +108,30 @@ const PlaceOrderScreen = () => {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>Detalii comandă</h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Items</Col>
-                  <Col>{cart.itemsPrice}$</Col>
+                  <Col>Produse</Col>
+                  <Col>{cart.itemsPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
-                  <Col>{cart.shippingPrice}$</Col>
+                  <Col>Cost livrare</Col>
+                  <Col>{cart.shippingPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Tax</Col>
-                  <Col>{cart.taxPrice}$</Col>
+                  <Col>Taxă</Col>
+                  <Col>{cart.taxPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>{cart.totalPrice}$</Col>
+                  <Col>{cart.totalPrice}lei</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -144,7 +144,7 @@ const PlaceOrderScreen = () => {
                   disabled={cart.cartItems === 0}
                   onClick={placeOrderHandler}
                 >
-                  Place Order
+                  Plasează comanda
                 </Button>
               </ListGroup.Item>
             </ListGroup>
