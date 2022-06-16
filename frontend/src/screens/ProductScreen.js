@@ -171,7 +171,7 @@ const ProductScreen = () => {
                         <Form.Label>Recenzii</Form.Label>
                         <Form.Control
                           as="select"
-                          value="rating"
+                          value={rating}
                           onChange={(e) => setRating(e.target.value)}
                         >
                           <option value="">Select</option>
